@@ -1,10 +1,10 @@
 """
-v03 : on crée le damier
+v04 : on crée le serpent
 """
 def damier() :
     x, y = 0, 0
     width, height = 20, 20
-    color = (255, 0, 0)     
+    color = (255, 255, 255)     
     for i in range(30):
         for _ in range(15):
             rect = pg.Rect(x, y, width, height)
@@ -17,8 +17,23 @@ def damier() :
             y = 0
     return
 
+def serpent_fixe(snake):
+    for coord in snake :
+        x, y = coord
+        #on convertit la position en bloc en position en pixels (chaque bloc faisant 20pixels de longueur/largeur)
+        rect = pg.Rect(x*20, y*20, 20, 20) 
+        pg.draw.rect(screen, (255, 0, 0), rect)
+    return
+
 from random import randint
 import pygame as pg
+
+# les coordonnées du corps du serpent
+snake = [
+    (10, 15),
+    (11, 15),
+    (12, 15),
+]
 
 pg.init()
 screen = pg.display.set_mode((400, 300))
@@ -47,8 +62,8 @@ while running:
     # on va quand même changer de couleur avant de sortir...
 
     damier()
+    serpent_fixe(snake)
     pg.display.update()
-
 
 # Enfin on rajoute un appel à pg.quit()
 # Cet appel va permettre à Pygame de "bien s'éteindre" et éviter des bugs sous Windows
