@@ -1,7 +1,21 @@
 """
-v02 : pareil mais au moins on peut sortir du programme
-avec la touche 'q', ou avec la souris en fermant la fenêtre
+v03 : on crée le damier
 """
+def damier() :
+    x, y = 0, 0
+    width, height = 20, 20
+    color = (255, 0, 0)     
+    for i in range(30):
+        for _ in range(15):
+            rect = pg.Rect(x, y, width, height)
+            pg.draw.rect(screen, color, rect)
+            y += 40
+        x += 20
+        if i % 2 == 0:
+            y = 20
+        else:
+            y = 0
+    return
 
 from random import randint
 import pygame as pg
@@ -32,8 +46,7 @@ while running:
     # xxx ici c'est discutable, car si on tape 'q'
     # on va quand même changer de couleur avant de sortir...
 
-    random_color = (randint(0, 255), randint(0, 255), randint(0, 255))
-    screen.fill(random_color)
+    damier()
     pg.display.update()
 
 
