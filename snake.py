@@ -64,6 +64,10 @@ while running:
     # on va quand même changer de couleur avant de sortir...
     screen.fill((0, 0, 0))
     damier()
+    x,y=snake[2]
+    nouv=(x+1,y)
+    snake.pop(0)
+    snake.append(nouv)
     serpent_fixe(snake)
     pg.display.update()
 
