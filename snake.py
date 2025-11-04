@@ -1,6 +1,9 @@
 """
 v04 : on crée le serpent
 """
+from random import randint
+import pygame as pg
+
 def damier() :
     x, y = 0, 0
     width, height = 20, 20
@@ -25,8 +28,7 @@ def serpent_fixe(snake):
         pg.draw.rect(screen, (255, 0, 0), rect)
     return
 
-from random import randint
-import pygame as pg
+
 
 # les coordonnées du corps du serpent
 snake = [
@@ -36,7 +38,7 @@ snake = [
 ]
 
 pg.init()
-screen = pg.display.set_mode((400, 300))
+screen = pg.display.set_mode((600, 600))
 clock = pg.time.Clock()
 
 # on rajoute une condition à la boucle: si on la passe à False le programme s'arrête
@@ -60,7 +62,7 @@ while running:
 
     # xxx ici c'est discutable, car si on tape 'q'
     # on va quand même changer de couleur avant de sortir...
-
+    screen.fill((0, 0, 0))
     damier()
     serpent_fixe(snake)
     pg.display.update()
