@@ -28,7 +28,13 @@ def serpent_fixe(snake):
         pg.draw.rect(screen, (255, 0, 0), rect)
     return
 
-
+def serpent_bouge(snake, dir):
+    x,y=snake[2]
+    dirx, diry = dir
+    nouv=(x+dirx,y+diry)
+    snake.pop(0)
+    snake.append(nouv)
+    return snake
 
 # les coordonnées du corps du serpent
 snake = [
@@ -36,7 +42,7 @@ snake = [
     (11, 15),
     (12, 15),
 ]
-
+dir =(1,0)
 pg.init()
 screen = pg.display.set_mode((600, 600))
 clock = pg.time.Clock()
@@ -45,7 +51,7 @@ clock = pg.time.Clock()
 running = True
 while running:
 
-    clock.tick(1)
+    clock.tick(5)
 
     # on itère sur tous les évênements qui ont eu lieu depuis le précédent appel
     # ici donc tous les évènements survenus durant la seconde précédente
@@ -59,15 +65,20 @@ while running:
             # si la touche est "Q" on veut quitter le programme
             if event.key == pg.K_q:
                 running = False
+            elif event.key == pg.K_UP:
+                dir = (0, -1)
+            elif event.key == pg.K_DOWN:
+                dir = (0, 1)
+            elif event.key == pg.K_LEFT:
+                dir = (-1, 0)
+            elif event.key == pg.K_RIGHT:
+                dir = (1, 0)
 
     # xxx ici c'est discutable, car si on tape 'q'
     # on va quand même changer de couleur avant de sortir...
     screen.fill((0, 0, 0))
     damier()
-    x,y=snake[2]
-    nouv=(x+1,y)
-    snake.pop(0)
-    snake.append(nouv)
+    snake = serpent_bouge(snake, dir)
     serpent_fixe(snake)
     pg.display.update()
 
