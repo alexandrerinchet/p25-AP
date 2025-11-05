@@ -25,16 +25,36 @@ def serpent_fixe(snake):
         x, y = coord
         #on convertit la position en bloc en position en pixels (chaque bloc faisant 20pixels de longueur/largeur)
         rect = pg.Rect(x*20, y*20, 20, 20) 
-        pg.draw.rect(screen, (255, 0, 0), rect)
+        pg.draw.rect(screen, (0, 255, 0), rect)
     return
 
 def serpent_bouge(snake, dir):
-    x,y=snake[2]
+    x,y=snake[-1]
     dirx, diry = dir
     nouv=(x+dirx,y+diry)
     snake.pop(0)
     snake.append(nouv)
     return snake
+
+def dessin_fruit(fruit):
+    x, y = fruit
+    rect = pg.Rect(x*20, y*20, 20, 20)
+    pg.draw.rect(screen, (255, 0, 0), rect)
+    return
+
+def mange_fruit(snake, fruit, score):
+    if snake[-1] == fruit :
+        fruit = (randint(0, 29), randint(0, 29))
+        snake.insert(0, snake[0])
+        score += 1
+    return snake, fruit, score
+    
+
+def perdu(snake):
+    if snake[-1] in snake[:len(snake)-1]:
+        return True
+    return False
+
 
 # les coordonnées du corps du serpent
 snake = [
@@ -42,7 +62,13 @@ snake = [
     (11, 15),
     (12, 15),
 ]
+
 dir =(1,0)
+
+fruit = (randint(0,29),randint(0,29))
+
+score = 0
+
 pg.init()
 screen = pg.display.set_mode((600, 600))
 clock = pg.time.Clock()
@@ -79,8 +105,13 @@ while running:
     screen.fill((0, 0, 0))
     damier()
     snake = serpent_bouge(snake, dir)
+    snake, fruit, score = mange_fruit(snake, fruit, score)
     serpent_fixe(snake)
+    dessin_fruit(fruit)
+    if perdu(snake):
+        running = False
     pg.display.update()
+    pg.display.set_caption(f"Score: {score}")
 
 # Enfin on rajoute un appel à pg.quit()
 # Cet appel va permettre à Pygame de "bien s'éteindre" et éviter des bugs sous Windows
